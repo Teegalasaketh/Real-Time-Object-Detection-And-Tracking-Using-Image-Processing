@@ -21,7 +21,7 @@ This project is a **full‑stack application** with a **Python backend** and a *
 │   ├── requirements.txt
 │   └── video.mp4       # Sample video
 │
-├── react-ui/            # React frontend
+├── frontend/            # React frontend
 │   ├── public/
 │   ├── src/
 │   ├── index.html
