@@ -70,7 +70,7 @@ python main.py
 ### 1. Navigate to frontend
 
 ```bash
-cd react-ui
+cd frontend
 ```
 
 ### 2. Install dependencies
@@ -88,7 +88,7 @@ npm run dev
 The app will run at:
 
 ```
-http://localhost:5173
+http://localhost:8080
 ```
 
 ---
