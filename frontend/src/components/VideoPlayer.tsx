@@ -1,3 +1,4 @@
+// frontend/src/components/VideoPlayer.tsx
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, Maximize, Download, RefreshCw } from 'lucide-react';

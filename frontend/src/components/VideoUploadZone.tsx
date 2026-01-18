@@ -1,3 +1,4 @@
+// frontend/src/components/VideoUploadZone.tsx
 import { useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, Video, X, AlertCircle } from 'lucide-react';
@@ -81,7 +82,7 @@ export function VideoUploadZone({ onFileSelect, isProcessing, disabled }: VideoU
         className={cn(
           "dropzone relative min-h-[280px] flex flex-col items-center justify-center p-8 cursor-pointer",
           isDragActive && "active",
-          (isProcessing || disabled) && "pointer-events-none opacity-50"
+          disabled && "pointer-events-none opacity-50"
         )}
         animate={{
           scale: isDragActive ? 1.02 : 1,
@@ -90,7 +91,7 @@ export function VideoUploadZone({ onFileSelect, isProcessing, disabled }: VideoU
         transition={{ duration: 0.2 }}
       >
         {/* Background grid pattern */}
-        <div className="absolute inset-0 grid-pattern opacity-30 rounded-xl" />
+        <div className="absolute inset-0 grid-pattern opacity-30 rounded-xl pointer-events-none" />
         
         {/* Scan line effect when dragging */}
         <AnimatePresence>
@@ -99,21 +100,23 @@ export function VideoUploadZone({ onFileSelect, isProcessing, disabled }: VideoU
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 overflow-hidden rounded-xl"
+              className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none"
             >
               <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent scan-line" />
             </motion.div>
           )}
         </AnimatePresence>
 
-        <input
-          type="file"
-          accept="video/*"
-          onChange={handleFileInput}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          disabled={isProcessing || disabled}
-        />
+       <input
+  type="file"
+  accept="video/*"
+  onChange={handleFileInput}
+  className="absolute inset-0 z-50 opacity-0 cursor-pointer"
+  disabled={isProcessing}
+/>
 
+
+      <div className="pointer-events-none">
         <AnimatePresence mode="wait">
           {selectedFile ? (
             <motion.div
@@ -180,6 +183,7 @@ export function VideoUploadZone({ onFileSelect, isProcessing, disabled }: VideoU
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
       </motion.div>
 
       {/* Error message */}
