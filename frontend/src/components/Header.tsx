@@ -30,7 +30,7 @@ export function Header() {
         </nav>
 
         <Button variant="outline" size="sm" asChild>
-          <a href="https://github.com/ultralytics/ultralytics" target="_blank" rel="noopener noreferrer">
+          <a href="#" target="_blank" rel="noopener noreferrer">
             <Github className="w-4 h-4" />
             <span className="hidden sm:inline">GitHub</span>
           </a>
