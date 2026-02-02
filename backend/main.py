@@ -14,18 +14,21 @@ app = FastAPI()
 # ---------------- CORS ----------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # change later if you want
+    allow_origins=[
+        "http://localhost:8080",
+        "http://localhost:5173",
+        "http://localhost:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
 # ---------------- PATHS ----------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
-OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
-RUNS_BASE = os.path.join(BASE_DIR, "runs")
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+UPLOAD_DIR = os.path.join(BASE_DIR, "backend", "uploads")
+OUTPUT_DIR = os.path.join(BASE_DIR, "backend", "outputs")
+RUNS_BASE = os.path.join(BASE_DIR, "backend", "runs")
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -34,8 +37,8 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 app.mount("/outputs", StaticFiles(directory=OUTPUT_DIR), name="outputs")
 
 # ---------------- MODEL ----------------
-model = YOLO(os.path.join(BASE_DIR, "models", "yolov8n.pt"))
-FFMPEG_PATH = "ffmpeg"
+model = YOLO(os.path.join(BASE_DIR, "backend", "models", "yolov8n.pt"))
+FFMPEG_PATH = r"C:\Softwares\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe"
 # ---------------- FFmpeg RE-ENCODE ----------------
 def reencode_video_ffmpeg(src_path: str, dst_path: str) -> bool:
     cmd = [
@@ -133,9 +136,5 @@ async def upload_video(file: UploadFile = File(...)):
     print("RETURNING VIDEO URL")
 
     return {
-    "video_url": f"/outputs/{video_id}.mp4"
-}
-
-@app.get("/")
-def root():
-    return {"message": "API running"}
+        "video_url": f"http://localhost:8000/outputs/{video_id}.mp4"
+    }
