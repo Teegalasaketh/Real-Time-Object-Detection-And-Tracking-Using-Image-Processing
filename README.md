@@ -122,4 +122,4 @@ http://localhost:8080
 
 ## 📄 License
 
-This project is for educational and deve
+This project is for educational and development
