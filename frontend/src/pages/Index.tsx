@@ -95,11 +95,26 @@ const Index = () => {
       clearInterval(processInterval);
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Processing failed');
+        let msg = 'Processing failed';
+
+        try {
+          const error = await response.json();
+          msg = error.error || msg;
+        } catch {
+          // backend did not return JSON
+        }
+
+        throw new Error(msg);
       }
 
-      const data = await response.json();
+
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error("Backend returned invalid response");
+      }
+
       setProgress(100);
       setResultVideoUrl(data.video_url);
       setProcessingState('complete');
