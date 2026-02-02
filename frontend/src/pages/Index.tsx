@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 
 type ProcessingState = 'idle' | 'uploading' | 'processing' | 'complete' | 'error';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = 'http://localhost:8000';
 
 const features = [
   {
@@ -95,26 +95,11 @@ const Index = () => {
       clearInterval(processInterval);
 
       if (!response.ok) {
-        let msg = 'Processing failed';
-
-        try {
-          const error = await response.json();
-          msg = error.error || msg;
-        } catch {
-          // backend did not return JSON
-        }
-
-        throw new Error(msg);
+        const error = await response.json();
+        throw new Error(error.error || 'Processing failed');
       }
 
-
-      let data;
-      try {
-        data = await response.json();
-      } catch {
-        throw new Error("Backend returned invalid response");
-      }
-
+      const data = await response.json();
       setProgress(100);
       setResultVideoUrl(data.video_url);
       setProcessingState('complete');
